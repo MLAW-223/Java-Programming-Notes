@@ -1,0 +1,115 @@
+Java Variables
+What are Variables?
+A variable is a reusable container for a value. It behaves as if it contains the value it holds.
+
+Variable Categories
+There are two main categories of variables in Java:
+
+Primitive Variables
+Definition: Simple values stored directly in memory (on the "stack").
+Data Types:
+int: Stores whole numbers (integers).
+Example: int age = 21;
+double: Stores numbers that can include a decimal portion.
+Example: double price = 19.99;
+char: Stores a single character. Characters are enclosed in single quotes.
+Example: char grade = 'A';
+boolean: Stores a truth value, either true or false.
+Example: boolean isStudent = true;
+Reference Variables
+Definition: Store memory addresses (on the "stack") that point to locations in a different area of memory called the "heap."
+Data Types (covered in this material):
+String: Stores a sequence of characters (text). Strings are enclosed in double quotes.
+Example: String name = "Bro Code";
+Primitive Data Types in Detail
+int (Integer)
+Purpose: To store whole numbers without any decimal part.
+Declaration: int variableName;
+Assignment: variableName = value;
+Combined Declaration and Assignment: int variableName = value;
+Examples:
+int age = 21;
+int year = 2025;
+int quantity = 1;
+Important Note: Assigning a double value to an int variable will result in an error because int cannot hold decimal values.
+double
+Purpose: To store numbers that can have a decimal part.
+Declaration: double variableName;
+Assignment: variableName = value;
+Combined Declaration and Assignment: double variableName = value;
+Examples:
+double price = 19.99;
+double gpa = 3.5;
+double temperature = -12.5;
+Note: Assigning an int value to a double variable will automatically append .0 to the value.
+char (Character)
+Purpose: To store a single character. Characters must be enclosed in single quotes (').
+Declaration: char variableName;
+Assignment: variableName = 'value';
+Combined Declaration and Assignment: char variableName = 'value';
+Examples:
+char grade = 'A';
+char symbol = '!';
+char currency = '$';
+Important Note: Do not confuse single quotes for char with double quotes for String.
+boolean
+Purpose: To store one of two values: true or false.
+Declaration: boolean variableName;
+Assignment: variableName = true; or variableName = false;
+Combined Declaration and Assignment: boolean variableName = true;
+Camel Case Naming Convention: For variable names consisting of multiple words, the first word starts with a lowercase letter, and subsequent words start with an uppercase letter (e.g., isStudent, forSale).
+Examples:
+boolean isStudent = true;
+boolean forSale = false;
+boolean isOnline = true;
+Usage: Often used in conditional statements (if statements) to control program flow.
+Reference Data Types in Detail
+String
+Purpose: To store a sequence of characters (text). Strings are enclosed in double quotes (").
+Declaration: String variableName;
+Assignment: variableName = "value";
+Combined Declaration and Assignment: String variableName = "value";
+Examples:
+String name = "Bro Code";
+String food = "pizza";
+String email = "fake123@gmail.com";
+String car = "Mustang";
+String color = "red";
+String Concatenation: You can combine strings with other strings or variables using the + operator.
+Example: System.out.println("Hello " + name); would output "Hello Bro Code".
+Note: Strings can contain numbers, but they are treated as characters, not as values for mathematical operations.
+Outputting Variables
+You can print the value of variables to the console using System.out.println().
+
+Printing a single variable:
+int age = 30;
+System.out.println(age); // Output: 30
+Printing a variable with text (concatenation):
+String car = "Mustang";
+int year = 2025;
+System.out.println("Your choice is a " + car + " " + year); // Output: Your choice is a Mustang 2025
+Pay attention to spacing when concatenating strings and variables. Add spaces within quotes where needed.
+Example: Combining Variables in Output
+Let's say you have the following variables:
+
+String color = "red";
+int year = 2025;
+String car = "Mustang";
+double price = 199999.99;
+char currency = '$';
+boolean forSale = true;
+You can combine these in a print statement:
+
+System.out.println("Your choice is a " + color + " " + year + " " + car);
+System.out.println("The price is: " + currency + price);
+
+if (forSale) {
+    System.out.println("There is a " + car + " for sale");
+} else {
+    System.out.println("The " + car + " is not for sale");
+}
+Expected Output:
+
+Your choice is a red 2025 Mustang
+The price is: $199999.99
+There is a Mustang for sale
