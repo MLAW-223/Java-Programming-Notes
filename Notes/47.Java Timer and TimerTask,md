@@ -1,0 +1,162 @@
+# Java Timer and TimerTask
+
+## Introduction
+The `Timer` and `TimerTask` classes in Java provide a mechanism for scheduling tasks to be executed at specific times or at regular intervals. This is useful for applications that require:
+
+- Sending notifications
+- Performing scheduled updates
+- Executing repetitive actions
+
+## Timer Class
+The `Timer` class is responsible for scheduling tasks. It manages a queue of tasks and executes them according to their scheduled times.
+
+### Creating a Timer
+To create a `Timer` object, you instantiate the `Timer` class:
+
+```java
+Timer timer = new Timer();
+```
+
+**Note:** You will need to import the `java.util.Timer` class.
+
+### Scheduling Tasks
+The `Timer` class has a `schedule()` method that allows you to specify when and how often a task should be executed.
+
+The `schedule()` method has two primary forms relevant here:
+
+1. **`schedule(TimerTask task, long delay, long period)`**:
+   - `task`: The `TimerTask` object to be executed.
+   - `delay`: The delay in milliseconds before the task is first executed.
+   - `period`: The time in milliseconds between successive executions of the task.
+   - This form schedules the task to run repeatedly with a fixed period.
+
+2. **`schedule(TimerTask task, long delay)`**:
+   - `task`: The `TimerTask` object to be executed.
+   - `delay`: The delay in milliseconds before the task is executed.
+   - This form schedules the task to run only once after the specified delay.
+
+## TimerTask Class
+The `TimerTask` class represents the task that will be executed by the `Timer`. You define the actions to be performed within the `run()` method of a `TimerTask`.
+
+### Creating a TimerTask
+You typically create a `TimerTask` by extending the `TimerTask` class and overriding its `run()` method. An anonymous inner class is a common and concise way to achieve this.
+
+```java
+TimerTask task = new TimerTask() {
+    @Override
+    public void run() {
+        // Code to be executed by the timer
+        System.out.println("Task executed!");
+    }
+};
+```
+
+**Note:** You will need to import the `java.util.TimerTask` class.
+
+### The run() Method
+The `run()` method contains the actual code that will be executed when the `Timer` triggers the task.
+
+**Example: Printing "Hello!" every second after a 3-second delay**
+```java
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class ScheduledPrint {
+    public static void main(String[] args) {
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("Hello!");
+            }
+        };
+
+        // Schedule the task to run after a 3000ms (3 seconds) delay,
+        // and then repeat every 1000ms (1 second).
+        timer.schedule(task, 3000, 1000);
+    }
+}
+```
+
+In this example:
+- `timer.schedule(task, 3000, 1000);`
+  - `task`: The `TimerTask` object that prints "Hello!".
+  - `3000`: The initial delay before the first execution (3 seconds).
+  - `1000`: The period between subsequent executions (1 second).
+
+## Cancelling a Timer
+It's important to cancel a `Timer` when it's no longer needed to free up system resources. You can do this using the `cancel()` method of the `Timer` object.
+
+### Stopping a Timer within a Task
+You can add logic within your `TimerTask`'s `run()` method to determine when to stop the timer. This often involves using a counter or a specific condition.
+
+**Example: Printing "Hello!" three times and then stopping**
+```java
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class LimitedPrint {
+    public static void main(String[] args) {
+        Timer timer = new Timer();
+        // Use a variable to track remaining executions.
+        // For use within an anonymous inner class, it needs to be effectively final
+        // or a mutable holder. For simplicity, we'll use a simple int here and
+        // acknowledge potential complexities with true mutability in anonymous classes.
+        // In a real scenario, consider using an AtomicInteger or a custom mutable object.
+        int[] count = {3}; // Using an array to allow modification within anonymous class
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if (count[0] > 0) {
+                    System.out.println("Hello! (" + count[0] + " remaining)");
+                    count[0]--;
+                } else {
+                    System.out.println("Task complete. Cancelling timer.");
+                    timer.cancel(); // Cancel the timer
+                }
+            }
+        };
+
+        // Schedule the task to start immediately and repeat every 1000ms (1 second).
+        timer.schedule(task, 0, 1000);
+    }
+}
+```
+
+In this example:
+- We use `int[] count = {3};` to hold the number of remaining executions. Using an array allows the anonymous class to modify the value, as primitive types would be considered effectively final.
+- Inside the `run()` method, we check if `count[0]` is greater than 0.
+  - If it is, we print "Hello!" and decrement the counter.
+  - If `count[0]` reaches 0 or less, we print a completion message and call `timer.cancel()` to stop the timer.
+- `timer.schedule(task, 0, 1000);` schedules the task to start immediately (delay = 0) and repeat every second (period = 1000).
+
+## Key Concepts Summary
+- **Timer:** Schedules `TimerTask` objects.
+- **TimerTask:** Represents the code to be executed. You override the `run()` method.
+- **Scheduling:** Use `timer.schedule(task, delay, period)` for repeating tasks or `timer.schedule(task, delay)` for a one-time execution.
+- **Cancellation:** Use `timer.cancel()` to stop the timer and release resources.
+
+---
+
+## Activities
+
+### Activity 1: Countdown Timer
+Create a program that:
+1. Asks the user for a number of seconds to count down from
+2. Uses `Timer` and `TimerTask` to display the countdown every second
+3. Prints "Time's up!" when the countdown reaches zero and cancels the timer
+
+### Activity 2: Scheduled Reminder System
+Create a reminder system that:
+1. Allows the user to set multiple reminders with messages and times
+2. Uses a single `Timer` to schedule all reminder tasks
+3. Each reminder should display its message at the scheduled time
+4. The system should stop all reminders when the user types "stop"
+
+### Activity 3: Periodic Data Logger
+Create a data logger that:
+1. Records the current timestamp to a file every 5 seconds
+2. Runs for a total of 1 minute (12 log entries)
+3. Uses a counter to stop the timer after 12 executions
+4. Properly closes the file writer and cancels the timer when done
